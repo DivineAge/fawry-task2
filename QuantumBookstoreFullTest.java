@@ -68,4 +68,3 @@ public class QuantumBookstoreFullTest {
         System.out.println();
     }
 }
-
