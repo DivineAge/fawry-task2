@@ -92,19 +92,19 @@ public class QuantumBookstoreFullTest {
     public static void testPurchaseOperations() throws Exception {
         System.out.println("=== Testing Purchase Operations ===");
         
-        // Test purchasing PaperBook
+        
         double cost1 = Inventory.checkout("978-0596007126", 2, "123 Main St, City, State", "test@email.com");
         assert cost1 == 79.98 : "Cost should be 39.99 * 2 = 79.98";
         
-        // Verify stock reduction
+        
         PaperBook paperBook = (PaperBook) Inventory.findBookByISBN("978-0596007126");
         assert paperBook.getStock() == 23 : "Stock should be reduced to 23";
         
-        // Test purchasing EBook
+        
         double cost2 = Inventory.checkout("978-1617294945", 1, "", "customer@email.com");
         assert cost2 == 34.99 : "EBook cost should be 34.99";
         
-        // Test multiple EBook purchases (should not affect stock)
+        
         double cost3 = Inventory.checkout("978-1617294945", 5, "", "bulk@email.com");
         assert cost3 == 174.95 : "Multiple EBook cost should be 34.99 * 5 = 174.95";
         
