@@ -29,24 +29,24 @@ public class QuantumBookstoreFullTest {
         
         PaperBook paperBook = new PaperBook("Effective Java", 2017, 45.99, "978-0134685991", 
                                           BookType.PAPERBOOK, 100, "Joshua Bloch", 50);
-        System.out.println("✓ Created PaperBook: " + paperBook);
+        System.out.println("Created PaperBook: " + paperBook);
         
         
         EBook eBook = new EBook("Clean Code", 2008, 29.99, "978-0135166307", 
                                BookType.EBOOK, 1000, "Robert Martin", "PDF");
-        System.out.println("✓ Created EBook: " + eBook);
+        System.out.println("Created EBook: " + eBook);
         
         
         DemoBook demoBook = new DemoBook("Java Basics Demo", 2023, 0.0, "978-0000000001", 
                                        BookType.DEMOBOOK, 1, "Demo Author");
-        System.out.println("✓ Created DemoBook: " + demoBook);
+        System.out.println("Created DemoBook: " + demoBook);
         
         
         assert paperBook.isPurchasable() == true : "PaperBook should be purchasable";
         assert eBook.isPurchasable() == true : "EBook should be purchasable";
         assert demoBook.isPurchasable() == false : "DemoBook should not be purchasable";
         
-        System.out.println("✓ All book creation tests passed!\n");
+        System.out.println("All book creation tests passed!\n");
     }
     
     public static void testInventoryOperations() throws Exception {
@@ -143,6 +143,6 @@ public class QuantumBookstoreFullTest {
         assert !Inventory.exists("978-0000000009") : "Old book should be removed";
         assert Inventory.exists("978-0000000010") : "New book should remain";
         
-        System.out.println("✓ Outdated book removal tests passed!\n");
+        System.out.println("Outdated book removal tests passed!\n");
     }
 }
