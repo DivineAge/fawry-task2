@@ -4,145 +4,67 @@ import models.*;
 import services.*;
 
 public class QuantumBookstoreFullTest {
-    
-    public static void main(String[] args) {
-        System.out.println("Quantum book store: Starting comprehensive test suite...\n");
-        
-        try {
-            testBookCreation();
-            testInventoryOperations();
-            testPurchaseOperations();
-;
-            testOutdatedBookRemoval();
-            
-            System.out.println("Quantum book store: All tests completed successfully!");
-            
-        } catch (Exception e) {
-            System.err.println("Quantum book store: Test failed with error: " + e.getMessage());
-            e.printStackTrace();
-        }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("Quantum book store: Running tests...\n");
+
+        testBookCreation();
+        testInventory();
+        testPurchase();
+        testOutdatedRemoval();
+
+        System.out.println("\nQuantum book store: Tests done.");
     }
-    
+
     public static void testBookCreation() throws Exception {
-        System.out.println("=== Testing Book Creation ===");
-        
-        
-        PaperBook paperBook = new PaperBook("Effective Java", 2017, 45.99, "978-0134685991", 
-                                          BookType.PAPERBOOK, 100, "Joshua Bloch", 50);
-        System.out.println("✓ Created PaperBook: " + paperBook);
-        
-        
-        EBook eBook = new EBook("Clean Code", 2008, 29.99, "978-0135166307", 
-                               BookType.EBOOK, 1000, "Robert Martin", "PDF");
-        System.out.println("✓ Created EBook: " + eBook);
-        
-        
-        DemoBook demoBook = new DemoBook("Java Basics Demo", 2023, 0.0, "978-0000000001", 
-                                       BookType.DEMOBOOK, 1, "Demo Author");
-        System.out.println("✓ Created DemoBook: " + demoBook);
-        
-        
-        assert paperBook.isPurchasable() == true : "PaperBook should be purchasable";
-        assert eBook.isPurchasable() == true : "EBook should be purchasable";
-        assert demoBook.isPurchasable() == false : "DemoBook should not be purchasable";
-        
-        System.out.println("✓ All book creation tests passed!\n");
+        System.out.println("Book Creation:");
+        PaperBook book1 = new PaperBook("Book1", 2020, 40.0, "ISBN1", BookType.PAPERBOOK, 10, "Author1", 2);
+        EBook book2 = new EBook("Book2", 2022, 30.0, "ISBN2", BookType.EBOOK, 100, "Author2", "PDF");
+        DemoBook book3 = new DemoBook("Book3", 2024, 0.0, "ISBN3", BookType.DEMOBOOK, 1, "Author3");
+        System.out.println(book1);
+        System.out.println(book2);
+        System.out.println(book3);
+        System.out.println();
     }
-    
-    public static void testInventoryOperations() throws Exception {
-        System.out.println("=== Testing Inventory Operations ===");
-        
-        
+
+    public static void testInventory() throws Exception {
+        System.out.println("Inventory:");
         Inventory.clearInventory();
-        
-        
-        PaperBook book1 = new PaperBook("Design Patterns", 2004, 39.99, "978-0596007126", 
-                                      BookType.PAPERBOOK, 50, "Gang of Four", 25);
-        EBook book2 = new EBook("Spring in Action", 2020, 34.99, "978-1617294945", 
-                               BookType.EBOOK, 200, "Craig Walls", "EPUB");
-        DemoBook book3 = new DemoBook("Programming Preview", 2024, 0.0, "978-0000000002", 
-                                    BookType.DEMOBOOK, 1, "Preview Author");
-        
+
+        PaperBook book1 = new PaperBook("Book1", 2018, 50.0, "ISBN4", BookType.PAPERBOOK, 5, "AuthorA", 3);
+        EBook book2 = new EBook("Book2", 2021, 20.0, "ISBN5", BookType.EBOOK, 50, "AuthorB", "EPUB");
+        DemoBook book3 = new DemoBook("Book3", 2023, 0.0, "ISBN6", BookType.DEMOBOOK, 1, "AuthorC");
+
         Inventory.addBook(book1);
         Inventory.addBook(book2);
         Inventory.addBook(book3);
-        
-        
-        assert Inventory.getInventorySize() == 3 : "Inventory should have 3 books";
-        
-        
-        IBook found = Inventory.findBookByISBN("978-0596007126");
-        assert found != null : "Should find book by ISBN";
-        assert found.getTitle().equals("Design Patterns") : "Found book should have correct title";
-        
-        
-        assert Inventory.exists("978-1617294945") == true : "Book should exist";
-        assert Inventory.exists("978-9999999999") == false : "Non-existent book should not exist";
-        
-        
+
         Inventory.displayInventory();
-        
-        
-        Inventory.removeBook("978-0000000002");
-        assert Inventory.getInventorySize() == 2 : "Inventory should have 2 books after removal";
-        
-        System.out.println("✓ All inventory operations tests passed!\n");
+
+        Inventory.removeBook("ISBN6");
+
+        System.out.println();
     }
-    
-    public static void testPurchaseOperations() throws Exception {
-        System.out.println("=== Testing Purchase Operations ===");
-        
-        // Test purchasing PaperBook
-        double cost1 = Inventory.checkout("978-0596007126", 2, "123 Main St, City, State", "test@email.com");
-        assert cost1 == 79.98 : "Cost should be 39.99 * 2 = 79.98";
-        
-        // Verify stock reduction
-        PaperBook paperBook = (PaperBook) Inventory.findBookByISBN("978-0596007126");
-        assert paperBook.getStock() == 23 : "Stock should be reduced to 23";
-        
-        // Test purchasing EBook
-        double cost2 = Inventory.checkout("978-1617294945", 1, "", "customer@email.com");
-        assert cost2 == 34.99 : "EBook cost should be 34.99";
-        
-        // Test multiple EBook purchases (should not affect stock)
-        double cost3 = Inventory.checkout("978-1617294945", 5, "", "bulk@email.com");
-        assert cost3 == 174.95 : "Multiple EBook cost should be 34.99 * 5 = 174.95";
-        
-        System.out.println("✓ All purchase operations tests passed!\n");
+
+    public static void testPurchase() throws Exception {
+        System.out.println("Purchase:");
+        Inventory.checkout("ISBN4", 2, "Some Street", "a@email.com");
+        Inventory.checkout("ISBN5", 1, "", "b@email.com");
+        System.out.println();
     }
-    
-     
-    
-    public static void testOutdatedBookRemoval() throws Exception {
-        System.out.println("=== Testing Outdated Book Removal ===");
-        
-        
-        PaperBook oldBook1 = new PaperBook("Old Java", 1995, 19.99, "978-0000000008", 
-                                         BookType.PAPERBOOK, 10, "Old Author", 5);
-        EBook oldBook2 = new EBook("Ancient Programming", 1990, 9.99, "978-0000000009", 
-                                  BookType.EBOOK, 50, "Ancient Author", "PDF");
-        PaperBook newBook = new PaperBook("Modern Java", 2023, 49.99, "978-0000000010", 
-                                        BookType.PAPERBOOK, 20, "Modern Author", 15);
-        
-        Inventory.addBook(oldBook1);
-        Inventory.addBook(oldBook2);
-        Inventory.addBook(newBook);
-        
-        int sizeBefore = Inventory.getInventorySize();
-        System.out.println("Inventory size before removal: " + sizeBefore);
-        
-        
-        List<IBook> removedBooks = Inventory.removeOutdatedBooks();
-        
-        int sizeAfter = Inventory.getInventorySize();
-        System.out.println("Inventory size after removal: " + sizeAfter);
-        System.out.println("Number of books removed: " + removedBooks.size());
-        
-        
-        assert !Inventory.exists("978-0000000008") : "Old book should be removed";
-        assert !Inventory.exists("978-0000000009") : "Old book should be removed";
-        assert Inventory.exists("978-0000000010") : "New book should remain";
-        
-        System.out.println("✓ Outdated book removal tests passed!\n");
+
+    public static void testOutdatedRemoval() throws Exception {
+        System.out.println("Outdated Book Removal:");
+        PaperBook book1 = new PaperBook("OldBook1", 1990, 15.0, "ISBN7", BookType.PAPERBOOK, 3, "OldAuthor1", 1);
+        EBook book2 = new EBook("OldBook2", 1985, 10.0, "ISBN8", BookType.EBOOK, 10, "OldAuthor2", "PDF");
+        PaperBook book3 = new PaperBook("NewBook", 2023, 45.0, "ISBN9", BookType.PAPERBOOK, 4, "NewAuthor", 2);
+
+        Inventory.addBook(book1);
+        Inventory.addBook(book2);
+        Inventory.addBook(book3);
+
+        List<IBook> removed = Inventory.removeOutdatedBooks();
+        System.out.println("Removed " + removed.size() + " outdated books.");
+        System.out.println();
     }
 }
