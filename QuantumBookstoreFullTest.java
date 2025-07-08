@@ -86,7 +86,7 @@ public class QuantumBookstoreFullTest {
         Inventory.removeBook("978-0000000002");
         assert Inventory.getInventorySize() == 2 : "Inventory should have 2 books after removal";
         
-        System.out.println("✓ All inventory operations tests passed!\n");
+        System.out.println("All inventory operations tests passed!\n");
     }
     
     public static void testPurchaseOperations() throws Exception {
@@ -108,7 +108,7 @@ public class QuantumBookstoreFullTest {
         double cost3 = Inventory.checkout("978-1617294945", 5, "", "bulk@email.com");
         assert cost3 == 174.95 : "Multiple EBook cost should be 34.99 * 5 = 174.95";
         
-        System.out.println("✓ All purchase operations tests passed!\n");
+        System.out.println("All purchase operations tests passed!\n");
     }
     
      
