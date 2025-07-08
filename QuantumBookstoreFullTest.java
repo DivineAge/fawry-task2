@@ -12,7 +12,6 @@ public class QuantumBookstoreFullTest {
             testBookCreation();
             testInventoryOperations();
             testPurchaseOperations();
-;
             testOutdatedBookRemoval();
             
             System.out.println("Quantum book store: All tests completed successfully!");
